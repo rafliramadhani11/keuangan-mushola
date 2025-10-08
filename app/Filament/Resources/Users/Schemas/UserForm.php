@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
-use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 
 class UserForm
 {
@@ -22,10 +22,15 @@ class UserForm
                             ->label('Email address')
                             ->email()
                             ->required(),
-                        DateTimePicker::make('email_verified_at'),
                         TextInput::make('password')
                             ->password()
-                            ->required(),
+                            ->required()
+                            ->hidden(fn ($operation) => $operation === 'edit'),
+                        Select::make('roles')
+                            ->relationship('roles', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->searchable(),
                     ])
                     ->columns(2)
                     ->columnSpan(2),
@@ -37,7 +42,7 @@ class UserForm
                     ])
                     ->columns(1)
                     ->columnSpan(1)
-                    ->hidden(fn($operation) => $operation === 'create')
+                    ->hidden(fn ($operation) => $operation === 'create'),
             ])->columns(3);
     }
 }
