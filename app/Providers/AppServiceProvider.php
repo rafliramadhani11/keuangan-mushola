@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use Filament\View\PanelsRenderHook;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Filament\Support\Facades\FilamentView;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::HEAD_END,
+            fn() => Blade::render("@vite('resources/js/app.js')")
+        );
     }
 
     /**
