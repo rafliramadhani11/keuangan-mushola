@@ -1,32 +1,34 @@
 <?php
 
-namespace App\Filament\Resources\Users\Tables;
+namespace App\Filament\Resources\Donors\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 
-class UsersTable
+class DonorsTable
 {
     public static function configure(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->where('id', '!=', Auth::id()))
             ->columns([
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->formatStateUsing(fn ($state, $record) => bendaharaRole() && $record->is_anonymous ? 'anonym' : $state)
+                    ->badge(fn ($record) => bendaharaRole() && $record->is_anonymous ? true : false),
                 TextColumn::make('email')
                     ->label('Email address')
                     ->searchable(),
-                TextColumn::make('roles.name')
-                    ->label('Roles')
-                    ->badge()
+                TextColumn::make('phone')
                     ->searchable(),
+                TextColumn::make('type')
+                    ->badge(),
+                IconColumn::make('is_anonymous')
+                    ->boolean(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
