@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->enum('type', ['income', 'expense']);
             $table->string('desc')->nullable();
+            $table->boolean('is_active');
             $table->timestamps();
         });
     }

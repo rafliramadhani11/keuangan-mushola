@@ -3,24 +3,27 @@
 namespace App\Filament\Resources\Categories;
 
 use App\Filament\Resources\Categories\Pages\ManageCategories;
-use App\Models\Categories;
+use App\Models\Category;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class CategoriesResource extends Resource
+class CategoryResource extends Resource
 {
-    protected static ?string $model = Categories::class;
+    protected static ?string $model = Category::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
@@ -32,14 +35,18 @@ class CategoriesResource extends Resource
                     ->required(),
                 Select::make('type')
                     ->options([
-                        Categories::INCOME => 'Income',
-                        Categories::EXPENSE => 'Expense',
+                        Category::INCOME => 'Pemasukan',
+                        Category::EXPENSE => 'Pengeluaran',
                     ])
-                    ->required()
-                    ->native(false),
-                TextInput::make('desc'),
-            ])
-            ->columns(1);
+                    ->native(false)
+                    ->required(),
+                Textarea::make('desc')
+                    ->rows(3)
+                    ->autosize(),
+                Toggle::make('is_active')
+                    ->default(true)
+                    ->required(),
+            ])->columns(1);
     }
 
     public static function table(Table $table): Table
@@ -49,16 +56,19 @@ class CategoriesResource extends Resource
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('type')
+                    ->formatStateUsing(fn ($state) => match ($state) {
+                        Category::INCOME => 'Pemasukan',
+                        Category::EXPENSE => 'Pengeluaran',
+                    })
                     ->badge()
                     ->color(fn ($state) => match ($state) {
-                        Categories::INCOME => 'success',
-                        Categories::EXPENSE => 'danger',
-                    })->formatStateUsing(fn ($state) => match ($state) {
-                        Categories::INCOME => 'Pemasukan',
-                        Categories::EXPENSE => 'Pengeluaran',
+                        Category::INCOME => 'success',
+                        Category::EXPENSE => 'danger',
                     }),
                 TextColumn::make('desc')
                     ->searchable(),
+                IconColumn::make('is_active')
+                    ->boolean(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
