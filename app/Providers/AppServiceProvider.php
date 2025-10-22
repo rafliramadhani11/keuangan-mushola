@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Filament\Support\Colors\Color;
+use Filament\Support\Facades\FilamentColor;
 use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\Facades\Blade;
@@ -26,7 +28,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (str_ends_with(request()->getHost(), '.ngrok-free-app')) {
+        FilamentColor::register([
+            'danger' => Color::Red,
+            'gray' => Color::Zinc,
+            'info' => Color::Blue,
+            'primary' => Color::Amber,
+            'success' => Color::Green,
+            'warning' => Color::Amber,
+        ]);
+
+        if (str_ends_with(request()->getHost(), '.ngrok-free.app')) {
             URL::forceScheme('https');
         }
     }
