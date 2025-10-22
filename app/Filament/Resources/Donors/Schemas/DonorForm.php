@@ -25,7 +25,7 @@ class DonorForm
                     ->belowContent('ex: 898 1332 4231')
                     ->prefix('+62')
                     ->mask('999 9999 9999 9999'),
-                Select::make('type')
+                Select::make('tzype')
                     ->options([
                         Donor::INDIVIDUAL => 'Per Orangan',
                         Donor::ORGANIZATION => 'Organisasi',
