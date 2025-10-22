@@ -39,16 +39,15 @@ class TransactionsTable
                     ->date()
                     ->sortable(),
                 TextColumn::make('payment_method')
-                    ->formatStateUsing(fn($state) => Str::ucfirst($state))
-                    ->color(fn($state) => match ($state) {
+                    ->formatStateUsing(fn ($state) => Str::ucfirst($state))
+                    ->color(fn ($state) => match ($state) {
                         Transaction::CASH_METHOD => 'success',
                         Transaction::TRANSFER_METHOD => 'warning',
-                        default => 'gray'
                     })
                     ->badge(),
                 TextColumn::make('status')
-                    ->formatStateUsing(fn($state) => Str::ucfirst($state))
-                    ->color(fn($state) => match ($state) {
+                    ->formatStateUsing(fn ($state) => Str::ucfirst($state))
+                    ->color(fn ($state) => match ($state) {
                         Transaction::COMPLETED_STATUS => 'success',
                         Transaction::PENDING_STATUS => 'warning',
                         Transaction::FAILED_STATUS => 'danger',
