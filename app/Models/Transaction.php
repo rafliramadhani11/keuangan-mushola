@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -44,5 +46,21 @@ class Transaction extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    #[Scope]
+    public function incomeData(Builder $query): void
+    {
+        $query->whereHas('category', function (Builder $q) {
+            $q->where('type', Category::INCOME);
+        });
+    }
+
+    #[Scope]
+    public function expenseData(Builder $query): void
+    {
+        $query->whereHas('category', function (Builder $q) {
+            $q->where('type', Category::EXPENSE);
+        });
     }
 }

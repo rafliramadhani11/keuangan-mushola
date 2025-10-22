@@ -5,7 +5,6 @@ namespace App\Filament\Resources\Donors\Schemas;
 use App\Models\Donor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 
 class DonorForm
@@ -31,8 +30,6 @@ class DonorForm
                         Donor::ORGANIZATION => 'Organisasi',
                     ])
                     ->native(false)
-                    ->required(),
-                Toggle::make('is_anonymous')
                     ->required(),
             ]);
     }

@@ -11,7 +11,6 @@ class Donor extends Model
         'email',
         'phone',
         'type',
-        'is_anonymous',
     ];
 
     public const INDIVIDUAL = 'individual';

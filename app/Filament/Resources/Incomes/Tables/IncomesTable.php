@@ -1,30 +1,25 @@
 <?php
 
-namespace App\Filament\Resources\Transactions\Tables;
+namespace App\Filament\Resources\Incomes\Tables;
 
 use App\Models\Transaction;
-use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
-class TransactionsTable
+class IncomesTable
 {
     public static function configure(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query) => $query->incomeData())
             ->columns([
                 TextColumn::make('donor.name')
                     ->label('Nama Donatur')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('user.name')
-                    ->label('Pembuat')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('category.name')
@@ -33,8 +28,6 @@ class TransactionsTable
                 TextColumn::make('amount')
                     ->currency('IDR')
                     ->sortable(),
-                TextColumn::make('desc')
-                    ->searchable(),
                 TextColumn::make('transaction_date')
                     ->date()
                     ->sortable(),
@@ -43,6 +36,7 @@ class TransactionsTable
                     ->color(fn ($state) => match ($state) {
                         Transaction::CASH_METHOD => 'success',
                         Transaction::TRANSFER_METHOD => 'warning',
+                        default => 'gray'
                     })
                     ->badge(),
                 TextColumn::make('status')
@@ -71,10 +65,7 @@ class TransactionsTable
                 //
             ])
             ->recordActions([
-                ActionGroup::make([
-                    EditAction::make(),
-                    DeleteAction::make(),
-                ])->icon(Heroicon::EllipsisHorizontal),
+                EditAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
