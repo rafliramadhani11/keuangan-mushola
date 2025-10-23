@@ -19,6 +19,7 @@ class Transaction extends Model
         'payment_method',
         'status',
         'reference_number',
+        'source',
     ];
 
     public const CASH_METHOD = 'cash';

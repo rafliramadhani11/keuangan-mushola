@@ -14,16 +14,16 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('donor_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
 
-            $table->string('name')->nullable();
             $table->decimal('amount', 15, 2);
             $table->string('desc')->nullable();
             $table->date('transaction_date');
             $table->enum('payment_method', ['cash', 'transfer']);
             $table->enum('status', ['pending', 'completed', 'failed', 'cancelled']);
             $table->string('reference_number')->nullable();
+            $table->enum('source', ['offline', 'online'])->nullable();
 
             $table->timestamps();
             $table->softDeletes();

@@ -31,6 +31,6 @@ class DonorForm
                     ])
                     ->native(false)
                     ->required(),
-            ]);
+            ])->columns(1);
     }
 }

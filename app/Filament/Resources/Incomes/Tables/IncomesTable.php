@@ -17,6 +17,7 @@ class IncomesTable
     {
         return $table
             ->modifyQueryUsing(fn (Builder $query) => $query->incomeData())
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('donor.name')
                     ->label('Nama Donatur')

@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Donors\Pages;
 use App\Filament\Resources\Donors\DonorResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Support\Enums\Width;
 use Illuminate\Contracts\Support\Htmlable;
 
 class ListDonors extends ListRecords
@@ -15,7 +16,8 @@ class ListDonors extends ListRecords
     {
         return [
             CreateAction::make()
-                ->label('Buat donatur'),
+                ->label('Buat donatur')
+                ->modalWidth(Width::Large),
         ];
     }
 

@@ -60,6 +60,8 @@
 <body class="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased">
     {{ $slot }}
 
+    @livewire('notifications')
+
     <!-- Filament Scripts -->
     @filamentScripts
     @livewireScripts

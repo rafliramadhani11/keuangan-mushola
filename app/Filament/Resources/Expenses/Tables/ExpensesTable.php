@@ -17,6 +17,7 @@ class ExpensesTable
     {
         return $table
             ->modifyQueryUsing(fn (Builder $query) => $query->expenseData())
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('category.name')
                     ->numeric()

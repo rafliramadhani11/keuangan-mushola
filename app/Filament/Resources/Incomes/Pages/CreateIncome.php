@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Incomes\Pages;
 
 use App\Filament\Resources\Incomes\IncomeResource;
-use App\Models\Transaction;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Auth;
@@ -15,8 +14,6 @@ class CreateIncome extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['user_id'] = Auth::id();
-
-        $data['payment_method'] = Transaction::CASH_METHOD;
 
         return $data;
     }
