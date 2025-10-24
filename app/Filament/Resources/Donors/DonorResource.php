@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class DonorResource extends Resource
 {
@@ -23,6 +24,8 @@ class DonorResource extends Resource
     protected static ?string $recordTitleAttribute = 'name';
 
     protected static ?string $navigationLabel = 'Donatur';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Manajemen';
 
     public static function form(Schema $schema): Schema
     {
@@ -48,5 +51,10 @@ class DonorResource extends Resource
             // 'create' => CreateDonor::route('/create'),
             // 'edit' => EditDonor::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 }

@@ -6,9 +6,11 @@ use App\Models\Transaction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Str;
 
 class ExpensesTable
@@ -16,17 +18,11 @@ class ExpensesTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->expenseData())
+            ->modifyQueryUsing(fn (EloquentBuilder $query) => $query->expenseData())
             ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('category.name')
                     ->numeric()
-                    ->sortable(),
-                TextColumn::make('amount')
-                    ->currency('IDR')
-                    ->sortable(),
-                TextColumn::make('transaction_date')
-                    ->date()
                     ->sortable(),
                 TextColumn::make('status')
                     ->formatStateUsing(fn ($state) => Str::ucfirst($state))
@@ -37,6 +33,18 @@ class ExpensesTable
                         Transaction::CANCELLED_STATUS => 'danger',
                     })
                     ->badge(),
+                TextColumn::make('transaction_date')
+                    ->date()
+                    ->sortable(),
+                TextColumn::make('amount')
+                    ->currency('IDR')
+                    ->summarize(
+                        Sum::make()
+                            ->query(fn (Builder $query) => $query->where('status', Transaction::COMPLETED_STATUS))
+                            ->label('Total Pengeluaran')
+                            ->money('IDR')
+                    )
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
