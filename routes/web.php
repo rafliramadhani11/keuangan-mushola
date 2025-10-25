@@ -11,18 +11,18 @@ Route::get('/', function () {
 
 Route::get('/donation', Donation::class)->name('donation.index');
 
-Route::get('/success-payment', fn () => view('payment.success'))->name('success-payment');
+Route::get('/success-payment', fn() => view('payment.success'))->name('success-payment');
 
 Route::get('app/report', function (Request $request) {
-    $startDate = $request->query();
-    $endDate = $request->query();
+    $startDate = $request->query('startDate');
+    $endDate = $request->query('endDate');
 
-    dd($request);
+    // dd($startDate, $endDate);
 
     // Get income transactions
     $incomeTransactions = Transaction::query()
         ->with(['donor', 'category', 'user'])
-        ->whereHas('category', fn ($q) => $q->where('type', 'income'))
+        ->whereHas('category', fn($q) => $q->where('type', 'income'))
         ->where('status', Transaction::COMPLETED_STATUS)
         ->whereBetween('transaction_date', [$startDate, $endDate])
         ->orderBy('transaction_date', 'asc')
@@ -31,7 +31,7 @@ Route::get('app/report', function (Request $request) {
     // Get expense transactions
     $expenseTransactions = Transaction::query()
         ->with(['category', 'user'])
-        ->whereHas('category', fn ($q) => $q->where('type', 'expense'))
+        ->whereHas('category', fn($q) => $q->where('type', 'expense'))
         ->where('status', Transaction::COMPLETED_STATUS)
         ->whereBetween('transaction_date', [$startDate, $endDate])
         ->orderBy('transaction_date', 'asc')

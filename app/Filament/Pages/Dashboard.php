@@ -12,6 +12,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\Width;
 use Filament\Widgets\AccountWidget;
+use PHPUnit\Framework\MockObject\Stub\ReturnCallback;
 
 class Dashboard extends BaseDashboard
 {
@@ -30,17 +31,17 @@ class Dashboard extends BaseDashboard
                             ->closeOnDateSelection()
                             ->native(false)
                             ->live(onBlur: true)
-                            ->maxDate(fn (Get $get) => $get('endDate') ?: now()),
+                            ->maxDate(fn(Get $get) => $get('endDate') ?: now()),
 
                         DatePicker::make('endDate')
-                            ->default(fn () => now()->endOfDay())
+                            ->default(fn() => now()->endOfDay())
                             ->label('Sampai tanggal')
                             ->placeholder('YYYY-MM-DD')
                             ->displayFormat('Y-m-d')
                             ->closeOnDateSelection()
                             ->native(false)
                             ->live(onBlur: true)
-                            ->minDate(fn (Get $get) => $get('startDate') ?: now())
+                            ->minDate(fn(Get $get) => $get('startDate') ?: now())
                             ->maxDate(now()),
                     ])
                     ->columns(2)
@@ -56,7 +57,7 @@ class Dashboard extends BaseDashboard
     protected function getHeaderActions(): array
     {
         return [
-            $this->createReport(),
+            $this->createReport()
         ];
     }
 
@@ -67,35 +68,39 @@ class Dashboard extends BaseDashboard
             ->modalWidth(Width::ExtraLarge)
             ->modalHeading('Buat Report')
             ->schema(
-                fn (Schema $schema) => $schema
+                fn(Schema $schema) =>
+                $schema
                     ->components([
-                        $this->startDateReport(),
-                        $this->endDateReport(),
+                        $this->startDateComponent(),
+                        $this->endDateComponent(),
                     ])->columns(2)
             )
             ->modalFooterActionsAlignment(Alignment::End)
             ->modalSubmitActionLabel('Buat')
-            ->modalSubmitAction(
-                fn (Action $action) => $action
-                    ->url(fn ($data) => route('dashboard.report', $data))
-                    ->openUrlInNewTab()
-            );
+            ->action(function (array $data) {
+                $url = route('dashboard.report', [
+                    'startDate' => $data['startDate'],
+                    'endDate' => $data['endDate'],
+                ]);
+
+                $this->js("window.open('$url', '_blank')");
+            });
     }
 
-    public function startDateReport()
+    public function startDateComponent()
     {
         return DatePicker::make('startDate')
             ->label('Dari tanggal')
-            ->default(fn () => now()->startOfMonth())
+            ->default(fn() => now()->startOfMonth())
             ->placeholder('YYYY-MM-DD')
             ->displayFormat('Y-m-d')
             ->closeOnDateSelection()
             ->native(false)
             ->live(onBlur: true)
-            ->maxDate(fn (Get $get) => $get('endDate') ?: now());
+            ->maxDate(fn(Get $get) => $get('endDate') ?: now());
     }
 
-    public function endDateReport()
+    public function endDateComponent()
     {
         return DatePicker::make('endDate')
             ->default(now())
@@ -105,7 +110,7 @@ class Dashboard extends BaseDashboard
             ->closeOnDateSelection()
             ->native(false)
             ->live(onBlur: true)
-            ->minDate(fn (Get $get) => $get('startDate') ?: now())
+            ->minDate(fn(Get $get) => $get('startDate') ?: now())
             ->maxDate(now());
     }
 

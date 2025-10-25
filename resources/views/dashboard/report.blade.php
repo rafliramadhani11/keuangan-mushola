@@ -204,38 +204,20 @@
 
             <!-- Footer / Signature Section -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 print:shadow-none">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="flex justify-between items-center gap-8 text-center">
                     <div>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-12">Dibuat Oleh,</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-24">Dibuat Oleh,</p>
                         <div class="border-t border-gray-300 dark:border-gray-600 pt-2">
                             <p class="font-semibold text-gray-900 dark:text-white">Bendahara</p>
                         </div>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-12">Diperiksa Oleh,</p>
-                        <div class="border-t border-gray-300 dark:border-gray-600 pt-2">
-                            <p class="font-semibold text-gray-900 dark:text-white">Ketua Takmir</p>
-                        </div>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-12">Mengetahui,</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-24">Mengetahui,</p>
                         <div class="border-t border-gray-300 dark:border-gray-600 pt-2">
                             <p class="font-semibold text-gray-900 dark:text-white">Pengurus</p>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Print Button -->
-            <div class="mt-6 text-center print:hidden">
-                <button onclick="window.print()"
-                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition">
-                    🖨️ Cetak / Download PDF
-                </button>
-                <a href="{{ url()->previous() }}"
-                    class="ml-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition inline-block">
-                    ← Kembali
-                </a>
             </div>
         </div>
     </div>
