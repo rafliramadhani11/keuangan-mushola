@@ -16,15 +16,15 @@
             </div>
         </div>
 
-        <x-filament::section class="max-w-3xl w-full mx-auto">
+        <x-filament::section class="max-w-3xl w-full mx-auto ">
             <!-- Title -->
-            <div class="flex items-center justify-center">
-                <h1 class="text-3xl font-bold text-gray-800">
+            <div class="flex items-center justify-between">
+                <h1 class="text-3xl font-bold text-gray-800 dark:text-white">
                     Pembayaran Berhasil! 🎉
                 </h1>
                 <div>
-                    <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                        <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-12 h-12 bg-green-100 dark:bg-green-300 rounded-full flex items-center justify-center mx-auto">
+                        <svg class="w-10 h-10 text-green-600 dark:text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
                     </div>
@@ -32,7 +32,7 @@
             </div>
 
             <!-- Message -->
-            <p class="text-gray-600">
+            <p class="text-gray-600 dark:text-gray-400 mt-3">
                 Terima kasih atas donasi Anda untuk Mushola.
                 Semoga menjadi amal jariyah yang bermanfaat.
             </p>
