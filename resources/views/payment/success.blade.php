@@ -55,6 +55,5 @@
                 </div>
             </div>
         </x-filament::section>
-
     </div>
 </x-layouts.app>

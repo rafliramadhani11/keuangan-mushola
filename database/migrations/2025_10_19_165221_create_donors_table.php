@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique()->nullable();
-            $table->string('phone')->unique()->nullable();
+            $table->string('phone')->unique();
             $table->enum('type', ['individual', 'organization']);
             $table->timestamps();
         });
