@@ -19,8 +19,8 @@ class DonorsTable
             ->columns([
                 TextColumn::make('name')
                     ->searchable()
-                    ->formatStateUsing(fn($state, $record) => bendaharaRole() && $record->is_anonymous ? 'anonym' : $state)
-                    ->badge(fn($record) => bendaharaRole() && $record->is_anonymous ? true : false),
+                    ->formatStateUsing(fn ($state, $record) => bendaharaRole() && $record->is_anonymous ? 'anonym' : $state)
+                    ->badge(fn ($record) => bendaharaRole() && $record->is_anonymous ? true : false),
                 TextColumn::make('email')
                     ->label('Email address')
                     ->searchable(),

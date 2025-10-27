@@ -41,7 +41,7 @@
         </div>
 
         <!-- Signature Section -->
-        <div class="bg-white print:shadow-none">
+        <div class="bg-white dark:bg-zinc-950 print:shadow-none">
             <div class="flex justify-between items-center gap-8 text-center">
                 <div>
                     <p class="text-sm text-gray-600 dark:text-gray-400 mb-24">Dibuat Oleh,</p>

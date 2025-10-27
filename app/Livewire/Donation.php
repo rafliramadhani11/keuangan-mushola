@@ -86,7 +86,7 @@ class Donation extends Component implements HasSchemas
                             ->inline()
                             ->columnSpanFull()
                             ->live()
-                            ->afterStateUpdated(fn($state, Set $set) => $set('amount', $state)),
+                            ->afterStateUpdated(fn ($state, Set $set) => $set('amount', $state)),
 
                         TextInput::make('amount')
                             ->label('Atau Masukkan Nominal Lain')
@@ -95,7 +95,7 @@ class Donation extends Component implements HasSchemas
                             ->numeric()
                             ->minValue(2000)
                             ->live()
-                            ->afterStateUpdated(fn($state, Set $set, Get $get) => $get('quick_amount') !== null && $state != $get('quick_amount') ? $set('quick_amount', null) : false)
+                            ->afterStateUpdated(fn ($state, Set $set, Get $get) => $get('quick_amount') !== null && $state != $get('quick_amount') ? $set('quick_amount', null) : false)
                             ->currencyMask('.', ',', 2)
                             ->hint('Minimum Rp 2.000')
                             ->columnSpanFull(),
@@ -132,7 +132,7 @@ class Donation extends Component implements HasSchemas
             }
 
             // Step 2: Generate unique external ID
-            $externalId = 'DON-' . strtoupper(Str::random(8)) . '-' . time();
+            $externalId = 'DON-'.strtoupper(Str::random(8)).'-'.time();
 
             // Step 3: Create transaction record
             Transaction::create([
@@ -154,7 +154,7 @@ class Donation extends Component implements HasSchemas
             $createInvoice = new CreateInvoiceRequest([
                 'external_id' => $externalId,
                 'amount' => (float) $data['amount'],
-                'description' => 'Donasi untuk Mushola - ' . $donor->name,
+                'description' => 'Donasi untuk Mushola - '.$donor->name,
                 'invoice_duration' => 86400, // 24 hours
                 'customer' => [
                     'given_names' => $donor->name,
