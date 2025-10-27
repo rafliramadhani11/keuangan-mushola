@@ -62,8 +62,11 @@ class Donation extends Component implements HasSchemas
                             ->label('Nama')
                             ->required()
                             ->columnStart(1),
-                        TextInput::make('email')
-                            ->email(),
+                        TextInput::make('phone')
+                            ->hint('ex: 898 1332 4231')
+                            ->prefix('+62')
+                            ->mask('999 9999 9999 9999')
+                            ->required(),
                         Textarea::make('notes')
                             ->label('Catatan')
                             ->hint('(optional)')
@@ -83,7 +86,7 @@ class Donation extends Component implements HasSchemas
                             ->inline()
                             ->columnSpanFull()
                             ->live()
-                            ->afterStateUpdated(fn ($state, Set $set) => $set('amount', $state)),
+                            ->afterStateUpdated(fn($state, Set $set) => $set('amount', $state)),
 
                         TextInput::make('amount')
                             ->label('Atau Masukkan Nominal Lain')
@@ -92,7 +95,7 @@ class Donation extends Component implements HasSchemas
                             ->numeric()
                             ->minValue(2000)
                             ->live()
-                            ->afterStateUpdated(fn ($state, Set $set, Get $get) => $get('quick_amount') !== null && $state != $get('quick_amount') ? $set('quick_amount', null) : false)
+                            ->afterStateUpdated(fn($state, Set $set, Get $get) => $get('quick_amount') !== null && $state != $get('quick_amount') ? $set('quick_amount', null) : false)
                             ->currencyMask('.', ',', 2)
                             ->hint('Minimum Rp 2.000')
                             ->columnSpanFull(),
@@ -110,28 +113,26 @@ class Donation extends Component implements HasSchemas
             DB::beginTransaction();
 
             // Step 1: Create or update donor based on email
-            if (! empty($data['email'])) {
+            if (! empty($data['phone'])) {
                 // If email provided, find existing donor or create new one
                 $donor = Donor::updateOrCreate(
-                    ['email' => $data['email']], // Find by email
+                    ['phone' => $data['phone']], // Find by phone
                     [
                         'name' => $data['name'],
                         'type' => $data['type'],
-                        'is_anonymous' => false,
                     ]
                 );
             } else {
                 // If no email, always create new donor
                 $donor = Donor::create([
                     'name' => $data['name'],
-                    'email' => null,
+                    'phone' => null,
                     'type' => $data['type'],
-                    'is_anonymous' => false,
                 ]);
             }
 
             // Step 2: Generate unique external ID
-            $externalId = 'DON-'.strtoupper(Str::random(8)).'-'.time();
+            $externalId = 'DON-' . strtoupper(Str::random(8)) . '-' . time();
 
             // Step 3: Create transaction record
             Transaction::create([
@@ -153,11 +154,11 @@ class Donation extends Component implements HasSchemas
             $createInvoice = new CreateInvoiceRequest([
                 'external_id' => $externalId,
                 'amount' => (float) $data['amount'],
-                'description' => 'Donasi untuk Mushola - '.$donor->name,
+                'description' => 'Donasi untuk Mushola - ' . $donor->name,
                 'invoice_duration' => 86400, // 24 hours
                 'customer' => [
                     'given_names' => $donor->name,
-                    'email' => $donor->email ?? 'noreply@mushola.com',
+                    'phone' => $donor->phone ?? 'noreply@mushola.com',
                 ],
                 'currency' => 'IDR',
                 'success_redirect_url' => route('success-payment'),

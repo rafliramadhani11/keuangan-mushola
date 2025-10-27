@@ -20,10 +20,10 @@ class DonorForm
                     ->label('Email address')
                     ->email(),
                 TextInput::make('phone')
-                    ->hint('(optional)')
                     ->belowContent('ex: 898 1332 4231')
                     ->prefix('+62')
-                    ->mask('999 9999 9999 9999'),
+                    ->mask('999 9999 9999 9999')
+                    ->required(),
                 Select::make('type')
                     ->options([
                         Donor::INDIVIDUAL => 'Per Orangan',

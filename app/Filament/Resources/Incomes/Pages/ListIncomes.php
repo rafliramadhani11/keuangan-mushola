@@ -27,7 +27,7 @@ class ListIncomes extends ListRecords
     public function getBreadcrumbs(): array
     {
         return [
-            route('filament.app.resources.expenses.index') => 'Pemasukan',
+            route('filament.app.resources.incomes.index') => 'Pemasukan',
             'Daftar',
         ];
     }

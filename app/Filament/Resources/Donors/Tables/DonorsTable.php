@@ -25,6 +25,7 @@ class DonorsTable
                     ->label('Email address')
                     ->searchable(),
                 TextColumn::make('phone')
+                    ->prefix('+62 ')
                     ->searchable(),
                 TextColumn::make('type')
                     ->badge(),
