@@ -24,3 +24,9 @@
         <x-filament-actions::modals />
     </div>
 </div>
+
+@script
+<script>
+    document.documentElement.classList.remove('dark');
+</script>
+@endscript
