@@ -29,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         FilamentColor::register([
+            'pink' => Color::Rose,
             'danger' => Color::Red,
             'gray' => Color::Zinc,
             'info' => Color::Blue,

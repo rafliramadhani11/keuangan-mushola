@@ -12,4 +12,10 @@ Route::get('/donation', Donation::class)->name('donation.index');
 
 Route::get('/success-payment', fn () => view('payment.success'))->name('success-payment');
 
-Route::get('app/report', [ReportController::class, 'index'])->name('dashboard.report');
+Route::controller(ReportController::class)->group(function () {
+    Route::get('app/report', 'index')->name('dashboard.report');
+
+    Route::get('categories/report', 'categoryReport')->name('category.report');
+
+    Route::get('donors/report', 'donorReport')->name('donor.report');
+});

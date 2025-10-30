@@ -15,24 +15,20 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Str;
-use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class IncomeTable extends Component implements HasActions, HasSchemas, HasTable
 {
     use InteractsWithActions, InteractsWithSchemas, InteractsWithTable;
 
-    #[Url]
-    public ?string $startDate;
+    public string $startDate;
 
-    #[Url]
-    public ?string $endDate;
+    public string $endDate;
 
-    public function mount()
+    public function mount(string $startDate, string $endDate): void
     {
-        $this->startDate = request()->query('startDate');
-
-        $this->endDate = request()->query('endDate');
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
     }
 
     public function table(Table $table): Table

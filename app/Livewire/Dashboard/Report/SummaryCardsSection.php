@@ -3,22 +3,18 @@
 namespace App\Livewire\Dashboard\Report;
 
 use App\Models\Transaction;
-use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class SummaryCardsSection extends Component
 {
-    #[Url]
-    public ?string $startDate;
+    public string $startDate;
 
-    #[Url]
-    public ?string $endDate;
+    public string $endDate;
 
-    public function mount()
+    public function mount(string $startDate, string $endDate): void
     {
-        $this->startDate = request()->query('startDate');
-
-        $this->endDate = request()->query('endDate');
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
     }
 
     public function transactionIncomeQuery()

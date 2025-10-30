@@ -10,7 +10,9 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
+use Filament\Support\Enums\IconPosition;
 use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\AccountWidget;
 
 class Dashboard extends BaseDashboard
@@ -67,6 +69,10 @@ class Dashboard extends BaseDashboard
             ->modal()
             ->modalWidth(Width::ExtraLarge)
             ->modalHeading('Buat Report')
+            ->icon(Heroicon::DocumentArrowDown)
+            ->iconPosition(IconPosition::After)
+            ->color('pink')
+            ->modalSubmitActionLabel('View PDF')
             ->schema(
                 fn (Schema $schema) => $schema
                     ->components([
@@ -75,7 +81,6 @@ class Dashboard extends BaseDashboard
                     ])->columns(2)
             )
             ->modalFooterActionsAlignment(Alignment::End)
-            ->modalSubmitActionLabel('Buat')
             ->action(function (array $data) {
                 $url = route('dashboard.report', [
                     'startDate' => $data['startDate'],
@@ -109,8 +114,7 @@ class Dashboard extends BaseDashboard
             ->closeOnDateSelection()
             ->native(false)
             ->live(onBlur: true)
-            ->minDate(fn (Get $get) => $get('startDate') ?: now())
-            ->maxDate(now());
+            ->minDate(fn (Get $get) => $get('startDate') ?: now());
     }
 
     protected function getHeaderWidgets(): array
