@@ -21,6 +21,16 @@ class ReportController extends Controller
         return view('donors.report', $this->queryParams());
     }
 
+    public function expenseReport(): View
+    {
+        return view('expenses.report', $this->queryParams());
+    }
+
+    public function incomeReport(): View
+    {
+        return view('incomes.report', $this->queryParams());
+    }
+
     protected function queryParams(): array
     {
         return [

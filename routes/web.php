@@ -18,4 +18,8 @@ Route::controller(ReportController::class)->group(function () {
     Route::get('categories/report', 'categoryReport')->name('category.report');
 
     Route::get('donors/report', 'donorReport')->name('donor.report');
+
+    Route::get('expenses/report', 'expenseReport')->name('expense.report');
+
+    Route::get('incomes/report', 'incomeReport')->name('income.report');
 });
